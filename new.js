@@ -165,19 +165,26 @@ centerImage.addEventListener('click', function () {
 
     const centerImageBackground = getComputedStyle(centerImage).backgroundImage;
 
-    if (!centerImageBackground || centerImageBackground === 'none') {
-    } else {
-      const centerImagePath = './' + centerImageBackground.slice(centerImageBackground.lastIndexOf('/') + 1, -2);
-    
-      const slideIndex = slidesData.findIndex(slide => {
-        const slideImagePath = './' + slide.src.slice(slide.src.lastIndexOf('/') + 1);
-        return slideImagePath === centerImagePath;
-      });
-    
-    }
+// slideIndex 변수를 상위 스코프에서 선언
+let slideIndex = -1;
 
-    if (slideIndex !== -1) {
-      swiper.slideTo(slideIndex);
-    }
+if (!centerImageBackground || centerImageBackground === 'none') {
+  console.error('backgroundImage를 찾을 수 없습니다.');
+} else {
+  const centerImagePath = './' + centerImageBackground.slice(centerImageBackground.lastIndexOf('/') + 1, -2);
+
+  // slidesData에서 매칭 인덱스 찾기
+  slideIndex = slidesData.findIndex(slide => {
+    const slideImagePath = './' + slide.src.slice(slide.src.lastIndexOf('/') + 1);
+    return slideImagePath === centerImagePath;
+  });
+}
+
+// slideIndex가 유효하면 swiper.slideTo 호출
+if (slideIndex !== -1) {
+  swiper.slideTo(slideIndex);
+} else {
+  console.error('매칭되는 슬라이드가 없습니다.');
+}
   });
 });
