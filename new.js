@@ -17,7 +17,7 @@ circle.innerHTML = slidesData
   .map(
     (slide, index) => {
       const angle = angleIncrement * index; // 각 이미지의 각도
-      const radians = (angle * Math.PI) / 180;
+      const radians = (angle * Math.PI) // 180;
       const x = radius * Math.cos(radians); // x 좌표
       const y = radius * Math.sin(radians); // y 좌표
 
