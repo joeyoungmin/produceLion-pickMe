@@ -163,17 +163,23 @@ centerImage.addEventListener('click', function () {
 
     container.appendChild(closeBtn);
 
-    const centerImageBackground = centerImage.style.backgroundImage.slice(5, -2); // "http://.../images/lion01.jpg"
-    const relativePathStartIndex = centerImageBackground.indexOf('/images'); // "/images"를 기준으로 경로 추출
-    const centerImagePath = '.' + centerImageBackground.slice(relativePathStartIndex); // "./images/lion01.jpg"
-    
-    const slideIndex = slidesData.findIndex(slide => {
-      const slideImagePath = './' + slide.src.slice(slide.src.indexOf('images')); // "./images/lion01.jpg"
-      return slideImagePath === centerImagePath;
-    });
+   // centerImage에서 backgroundImage 경로 추출
+const centerImageBackground = getComputedStyle(centerImage).backgroundImage;
 
-    if (slideIndex !== -1) {
-      swiper.slideTo(slideIndex);
-    }
+// 유효한 backgroundImage 값인지 확인
+if (!centerImageBackground || centerImageBackground === 'none') {
+  console.error('backgroundImage를 찾을 수 없습니다.');
+} else {
+  // 경로 가공
+  const centerImagePath = './' + centerImageBackground.slice(centerImageBackground.lastIndexOf('/') + 1, -2);
+
+  // slidesData에서 매칭 인덱스 찾기
+  const slideIndex = slidesData.findIndex(slide => {
+    const slideImagePath = './' + slide.src.slice(slide.src.lastIndexOf('/') + 1);
+    return slideImagePath === centerImagePath;
+  });
+
+  console.log('슬라이드 인덱스:', slideIndex);
+}
   });
 });
