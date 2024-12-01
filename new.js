@@ -119,7 +119,7 @@ centerImage.addEventListener('click', function () {
         <div class="parallax-bg" style="background-image: url(https://swiperjs.com/demos/images/nature-1.jpg); data-swiper-parallax="-23%"></div>
         <div class="swiper-wrapper">
           ${slidesData.map((slide, index) => `
-            <div class="swiper-slide" style="background-image: url('/images/lion0${index + 1}.jpg');">
+            <div class="swiper-slide" style="background-image: url('./images/lion0${index + 1}.jpg');">
               <div class="title" data-swiper-parallax="-300">${slide.title}</div>
               <br />
               <div class="subtitle" data-swiper-parallax="-200">${slide.subtitle}</div>
