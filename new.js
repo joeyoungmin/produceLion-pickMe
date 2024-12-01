@@ -162,24 +162,15 @@ centerImage.addEventListener('click', function () {
     });
 
     container.appendChild(closeBtn);
-
-   // centerImage에서 backgroundImage 경로 추출
 const centerImageBackground = getComputedStyle(centerImage).backgroundImage;
 
-// 유효한 backgroundImage 값인지 확인
 if (!centerImageBackground || centerImageBackground === 'none') {
-  console.error('backgroundImage를 찾을 수 없습니다.');
 } else {
-  // 경로 가공
   const centerImagePath = './' + centerImageBackground.slice(centerImageBackground.lastIndexOf('/') + 1, -2);
-
-  // slidesData에서 매칭 인덱스 찾기
   const slideIndex = slidesData.findIndex(slide => {
     const slideImagePath = './' + slide.src.slice(slide.src.lastIndexOf('/') + 1);
     return slideImagePath === centerImagePath;
   });
-
-  console.log('슬라이드 인덱스:', slideIndex);
 }
   });
 });
