@@ -119,7 +119,7 @@ centerImage.addEventListener('click', function () {
         <div class="parallax-bg" style="background-image: url(https://swiperjs.com/demos/images/nature-1.jpg); data-swiper-parallax="-23%"></div>
         <div class="swiper-wrapper">
           ${slidesData.map((slide, index) => `
-            <div class="swiper-slide" style="background-image: url("./images/lion0${index + 1}.jpg");">
+            <div class="swiper-slide" style="background-image: url('./images/lion0${index + 1}.jpg');">
               <div class="title" data-swiper-parallax="-300">${slide.title}</div>
               <br />
               <div class="subtitle" data-swiper-parallax="-200">${slide.subtitle}</div>
@@ -163,10 +163,12 @@ centerImage.addEventListener('click', function () {
 
     container.appendChild(closeBtn);
 
-    const centerImageBackground = centerImage.style.backgroundImage.slice(5, -2);
+    const centerImageBackground = centerImage.style.backgroundImage.slice(5, -2); // "http://.../images/lion01.jpg"
+    const relativePathStartIndex = centerImageBackground.indexOf('/images'); // "/images"를 기준으로 경로 추출
+    const centerImagePath = '.' + centerImageBackground.slice(relativePathStartIndex); // "./images/lion01.jpg"
+    
     const slideIndex = slidesData.findIndex(slide => {
-      const slideImagePath = slide.src.slice(slide.src.lastIndexOf('/') + 1);
-      const centerImagePath = centerImageBackground.slice(centerImageBackground.lastIndexOf('/') + 1);
+      const slideImagePath = './' + slide.src.slice(slide.src.indexOf('images')); // "./images/lion01.jpg"
       return slideImagePath === centerImagePath;
     });
 
