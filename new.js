@@ -7,19 +7,17 @@ const airplaneSound = new Audio('./audio/99ED974F5CF009522F.mp3');
 let currentIndex = 0;
 airplaneSound.volume = 0.1;
 
-// 원 반지름 설정
-const radius = 120; // 원의 반지름
-const total = slidesData.length; // 이미지 개수
-const angleIncrement = (360 / total); // 각도 증가량
+const radius = 120;
+const total = slidesData.length;
+const angleIncrement = (360 / total);
 
-// 이미지 배치
 circle.innerHTML = slidesData
   .map(
     (slide, index) => {
-      const angle = angleIncrement * index; // 각 이미지의 각도
-      const radians = (angle * Math.PI) // 180;
-      const x = radius * Math.cos(radians); // x 좌표
-      const y = radius * Math.sin(radians); // y 좌표
+      const angle = angleIncrement * index;
+      const radians = (angle * Math.PI)
+      const x = radius * Math.cos(radians);
+      const y = radius * Math.sin(radians);
 
       return `
         <li style="
@@ -34,25 +32,20 @@ circle.innerHTML = slidesData
   )
   .join("");
 
-// 이미지 요소 가져오기
 const images = Array.from(circle.querySelectorAll("img"));
 
-// 중앙 이미지 업데이트
 function updateCenterImage(index) {
   const selectedImage = images[index];
   centerImage.style.backgroundImage = `url(${selectedImage.src})`;
 }
 
-// 이미지 클릭 시 회전
 images.forEach((img, index) => {
   img.addEventListener("click", () => {
     currentIndex = index;
     updateCenterImage(index);
 
-    // 회전 각도 계산
     const rotation = -angleIncrement * currentIndex;
 
-    // 모든 이미지 회전
     images.forEach((image, i) => {
       const currentAngle = angleIncrement * i + rotation;
       const radians = (currentAngle * Math.PI) / 180;
@@ -60,7 +53,6 @@ images.forEach((img, index) => {
       const x = radius * Math.cos(radians);
       const y = radius * Math.sin(radians);
 
-      // 회전 및 재배치
       image.parentElement.style.transform = `
         translate(${x}px, ${y}px) rotate(${currentAngle}deg)
       `;
@@ -68,22 +60,18 @@ images.forEach((img, index) => {
   });
 });
 
-// 중앙 이미지 초기화
 updateCenterImage(currentIndex);
 
-// "Next" 버튼
 document.getElementById("next").addEventListener("click", () => {
   currentIndex = (currentIndex + 1) % total;
-  images[currentIndex].click(); // 다음 이미지 클릭 효과
+  images[currentIndex].click();
 });
 
-// "Previous" 버튼
 document.getElementById("prev").addEventListener("click", () => {
   currentIndex = (currentIndex - 1 + total) % total;
-  images[currentIndex].click(); // 이전 이미지 클릭 효과
+  images[currentIndex].click();
 });
 
-// 비행기 애니메이션
 function moveAirplane() {
   return new Promise((resolve) => {
     airplane.style.top = '-2000px';
@@ -97,7 +85,6 @@ function moveAirplane() {
   });
 }
 
-// 중앙 이미지 클릭 시 비행기 애니메이션 실행
 centerImage.addEventListener('click', function () {
   airplaneSound.play();
 
